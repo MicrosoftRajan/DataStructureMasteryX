@@ -89,7 +89,7 @@ public class Bubble_sort {
         int n = arr.length;
         for(int i = 0; i<n-1; i++){
             int swap = 0;
-            for(int j = 0; j<n-1-i; i++){
+            for(int j = 0; j<n-1-i; j++){
                 if(arr[j] > arr[j+1]){
                     int temp = arr[j];
                     arr[j]  = arr[j+1];
@@ -104,7 +104,33 @@ public class Bubble_sort {
     }
 
     public static void Reverse(int arr[]){
-        Collections.reverse(Arrays.asList(arr));
+        int start  = 0;
+        int end = arr.length - 1;
+
+        while (start < end) {
+            int temp = arr[start];
+            arr[start] = arr[end];
+            arr[end] = temp;
+            start++;
+            end--;
+        }
+        print(arr);
+
+    }
+
+    public static void Bubble_Sort_Desc(int arr[]){
+        int n = arr.length;
+        for(int i = 0; i<n; i++){
+            int swap = 0;
+            for(int j = 0; j<n-1-i; j++){
+                if(arr[j] > arr[j+1]){
+                    int temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
+                    swap++;
+                }
+            }
+        }
         print(arr);
     }
     public static void main(String[] args) {
@@ -116,7 +142,8 @@ public class Bubble_sort {
         System.out.println("------------------------------Bubble Sort Optimized Approaches---------------------------------------------");
         Bubble_Sort_Optimized(arr);
         System.out.println("------------------------------Reverse of Bubble Sort---------------------------------------------");
-        Reverse(arr);
+        Reverse(arr);  
+
 
     }
 }
