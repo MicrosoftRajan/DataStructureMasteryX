@@ -348,6 +348,51 @@ public class Basics_LL {
 
     }
 
+    public static Node Merge_And_Sorted(Node head1, Node head2) {
+        Node dummy = new Node(-1); // start node saver
+        Node i = head1; // first list
+        Node j = head2; // second list
+        Node k = dummy; // merge
+
+        while (i != null && j != null) {
+            if (i.val <= j.val) {
+                k.Next = i; // Attach Node
+                i = i.Next;
+            } else {
+                k.Next = j;
+                j = j.Next; // Move j
+            }
+            k = k.Next;
+        }
+        if (i == null)
+            k.Next = j;
+        else
+            k.Next = i;
+        return dummy.Next;
+    }
+
+    public static Node Partitions(Node head, int x) {
+        Node dummy = new Node(-1);
+        Node dummy2 = new Node(-1);
+        Node t1 = dummy;
+        Node t2 = dummy2;
+        Node t = head;
+
+        while (t != null) {
+            if (t.val < x) {
+                t1.Next = t;
+                t1 = t1.Next;
+            } else {
+                t2.Next = t;
+                t2 = t2.Next;
+            }
+            t = t.Next;
+        }
+        t1.Next = dummy2.Next; // connect Node
+        t2.Next = null; // old link remove
+        return dummy.Next;
+    }
+
     public static void main(String[] args) {
 
         // Node a = new Node();
@@ -438,7 +483,8 @@ public class Basics_LL {
         System.out.println(Kth_Node(head, 4));
         System.out.println();
 
-        //System.out.println("------------------- Swap Nodes --------------------------");
+        // System.out.println("------------------- Swap Nodes
+        // --------------------------");
 
         // Swap_LL(head, 20, 50);
         // Print(head);
@@ -460,6 +506,14 @@ public class Basics_LL {
 
         Print(head);
 
+        System.out.println();
+
+        System.out.println("------------------- Partition --------------------------");
+
+        Node ans = Partitions(head, 30);
+
+        Print(ans);
+
     }
 
 }
@@ -476,5 +530,28 @@ public class Basics_LL {
  * null means end of Node
  * you can't go back to previous Node
  * Travese all the Node - DrawBack
+ * Merge_And_Sorted
+ * 
+ * Dry Run
+ * head1 = 1 -> 3 -> 5
+ * i i i
+ * head 2 = 2 -> 4 -> 6
+ * j. j
+ * res = 1 -> 2 -> 3 -> 4-> 5 -> 6
+ * 
+ * comapre i <= 2 True
+ * k.next = i
+ * dummy -> 1 ->
+ * i = i.next Now, i = 3
+ * k = k.next
+ * 3 <=2 False
+ * dummy -> 1 -> 2 ->
+ * k = k.next
+ * 3 <= 4 Yes
+ * k = k.next
+ * dummy -> 1 -> 2 -> 3
+ * 
+ * 
+ * 
  * 
  */
