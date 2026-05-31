@@ -135,7 +135,7 @@ public class Basics_LL {
         size++;
     }
 
-    public static void get(int idx){
+    public static void get(int idx) {
 
         Node temp = head;
 
@@ -145,6 +145,254 @@ public class Basics_LL {
         }
         System.out.println(temp.val);
     }
+
+    public static void Delete(int idx) {
+
+        if (idx < 0 || idx >= size)
+            return;
+        if (idx == 0)
+            DeleteAtHead();
+        Node temp = head;
+
+        for (int i = 1; i <= idx - 1; i++) {
+            temp = temp.Next;
+        }
+
+        temp.Next = temp.Next.Next;
+        if (idx == size - 1) {
+            tail = temp;
+        }
+        size--;
+    }
+
+    public static Node GetMiddle(Node head) {
+        // Node temp = head;
+        // int l = 0;
+
+        // while(temp != null){
+        // temp= temp.Next;
+        // l++;
+        // }
+
+        // temp = head;
+
+        // for(int i = 0; i< l/2; i++){
+        // temp= temp.Next;
+        // }
+
+        // return temp;
+
+        /* Optimize Approched */
+
+        Node fast = head;
+        Node slow = head;
+
+        while (fast != null && fast.Next != null) {
+            slow = slow.Next;
+            fast = fast.Next.Next;
+        }
+        return slow;
+    }
+
+    public static void RemoveMiddleElements(Node head) {
+
+        if (head == null) {
+            System.out.println("Linked List is Empty!");
+            return;
+        }
+
+        if (head.Next == null)
+            return;
+        Node prev = null;
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null && fast.Next != null) {
+            prev = slow;
+            slow = slow.Next;
+            fast = fast.Next.Next;
+        }
+        Print(head);
+    }
+
+    public static int Kth_Node(Node head, int k) {
+        Node slow = head;
+        Node fast = head;
+
+        for (int i = 1; i <= k; i++) {
+            if (fast == null)
+                return -1;
+            fast = fast.Next;
+        }
+
+        while (fast != null) {
+            slow = slow.Next;
+            fast = fast.Next;
+        }
+
+        return slow.val;
+    }
+
+    public static Node IntersectionNode(Node head1, Node head2) {
+        int len1 = 0, len2 = 0;
+        Node temp1 = head1, temp2 = head2;
+
+        // length calculate kiya
+
+        while (temp1 != null) {
+            temp1 = temp1.Next;
+            len1++;
+        }
+
+        while (head2 != null) {
+            head2 = head2.Next;
+            len2++;
+        }
+
+        temp1 = head1;
+        temp2 = head2;
+
+        if (len1 > len2) { // agar len1 bada hai toh temp ko aage behjo nahi toh temp2
+            for (int i = 1; i <= len1 - len2; i++) {
+                temp1 = temp1.Next;
+            }
+        } else {
+            for (int i = 1; i <= len2 - len1; i++) {
+                temp2 = temp2.Next;
+            }
+        }
+
+        while (temp1 != temp2) { // after reach to same position start 1 step
+            temp1 = temp1.Next;
+            temp2 = temp2.Next;
+        }
+        return temp1;
+
+    }
+
+    public static Node Find(Node head, int val) {
+        if (head == null)
+            return null;
+        if (head.val == val)
+            return head;
+
+        return Find(head.Next, val);
+    }
+
+    public static Node Swap_LL(Node head, int val1, int val2) {
+        Node Node1 = Find(head, val1);
+        Node Node2 = Find(head, val2);
+
+        if (Node1 == null || Node2 == null)
+            return head;
+
+        // Normal Swap use karo
+
+        int temp = Node1.val;
+        Node1.val = Node2.val;
+        Node2.val = temp;
+
+        return head;
+    }
+
+    public static Node Swap_TwoPtr(Node head, int val) {
+        Node slow = head;
+        Node fast = head;
+
+        for (int i = 1; i <= val; i++) { // fast ko null tak paucha diya
+            fast = fast.Next;
+        }
+
+        while (fast != null) { // slow ab exact postion par aa chuka hai
+            slow = slow.Next;
+            fast = fast.Next;
+        }
+
+        fast = head;
+
+        for (int i = 1; i <= val - 1; i++) {
+            fast = fast.Next;
+        }
+
+        int temp = fast.val;
+        fast.val = slow.val;
+        slow.val = temp;
+
+        return head;
+    }
+
+    public static boolean DetectLoop(Node head) {
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null && fast.Next != null) {
+            slow = slow.Next;
+            fast = fast.Next.Next;
+            if (fast == slow)
+                return true;
+        }
+
+        return false;
+    }
+
+    public static Node RemoveDuplicateLL(Node head) {
+        Node temp = head;
+        while (head != null && temp.Next != null) {
+            if (temp.val == temp.Next.val) { // duplicate element mil gya
+                temp.Next = temp.Next.Next;
+            } else {
+                temp = temp.Next;
+            }
+        }
+        return head;
+
+    }
+
+    public static Node Merge_And_Sorted(Node head1, Node head2) {
+        Node dummy = new Node(-1); // start node saver
+        Node i = head1; // first list
+        Node j = head2; // second list
+        Node k = dummy; // merge
+
+        while (i != null && j != null) {
+            if (i.val <= j.val) {
+                k.Next = i; // Attach Node
+                i = i.Next;
+            } else {
+                k.Next = j;
+                j = j.Next; // Move j
+            }
+            k = k.Next;
+        }
+        if (i == null)
+            k.Next = j;
+        else
+            k.Next = i;
+        return dummy.Next;
+    }
+
+    public static Node Partitions(Node head, int x) {
+        Node dummy = new Node(-1);
+        Node dummy2 = new Node(-1);
+        Node t1 = dummy;
+        Node t2 = dummy2;
+        Node t = head;
+
+        while (t != null) {
+            if (t.val < x) {
+                t1.Next = t;
+                t1 = t1.Next;
+            } else {
+                t2.Next = t;
+                t2 = t2.Next;
+            }
+            t = t.Next;
+        }
+        t1.Next = dummy2.Next; // connect Node
+        t2.Next = null; // old link remove
+        return dummy.Next;
+    }
+
     public static void main(String[] args) {
 
         // Node a = new Node();
@@ -163,6 +411,7 @@ public class Basics_LL {
         Node c = new Node(30);
         Node d = new Node(40);
         Node e = new Node(50); // tail
+        Node f = new Node(50); // tail
 
         System.out.println(a.val);
 
@@ -174,8 +423,8 @@ public class Basics_LL {
         e.Next = null;
 
         head = a;
-        tail = e;
-        size = 50;
+        tail = f;
+        size = 5;
         // System.out.println(a);
         // System.out.println(b);
         // System.out.println(a.Next); // a->b
@@ -210,15 +459,61 @@ public class Basics_LL {
         Print(head);
         System.out.println();
 
-        System.out.println("------------------- Add element at specific position--------------------------");
+        System.out.println("------------------- Get element at specific position--------------------------");
         AddAtSpecificPosition(90, 2);
         Print(head);
         System.out.println();
         System.out.println("------------------- Get element at specific position--------------------------");
         get(2);
-        System.out.println("The size is : "+ size);
+        System.out.println("The size is : " + size);
+        System.out.println();
 
-        
+        Node middle = GetMiddle(head);
+        System.err.println("The middle element is :" + middle.val);
+
+        System.out.println();
+
+        System.out.println("------------------- Delete the Middle elements--------------------------");
+
+        RemoveMiddleElements(head);
+        System.out.println();
+
+        System.out.println("------------------- Kth elements--------------------------");
+
+        System.out.println(Kth_Node(head, 4));
+        System.out.println();
+
+        // System.out.println("------------------- Swap Nodes
+        // --------------------------");
+
+        // Swap_LL(head, 20, 50);
+        // Print(head);
+        // System.out.println();
+
+        System.out.println("------------------- Two {Pointer} Swap Nodes --------------------------");
+
+        Swap_TwoPtr(head, 2);
+
+        Print(head);
+        System.out.println();
+        System.out.println("------------------- Detect Loops --------------------------");
+        System.out.println(DetectLoop(head));
+        System.out.println();
+
+        System.out.println("------------------- Remove Duplicate --------------------------");
+
+        RemoveDuplicateLL(head);
+
+        Print(head);
+
+        System.out.println();
+
+        System.out.println("------------------- Partition --------------------------");
+
+        Node ans = Partitions(head, 30);
+
+        Print(ans);
+
     }
 
 }
@@ -235,5 +530,28 @@ public class Basics_LL {
  * null means end of Node
  * you can't go back to previous Node
  * Travese all the Node - DrawBack
+ * Merge_And_Sorted
+ * 
+ * Dry Run
+ * head1 = 1 -> 3 -> 5
+ * i i i
+ * head 2 = 2 -> 4 -> 6
+ * j. j
+ * res = 1 -> 2 -> 3 -> 4-> 5 -> 6
+ * 
+ * comapre i <= 2 True
+ * k.next = i
+ * dummy -> 1 ->
+ * i = i.next Now, i = 3
+ * k = k.next
+ * 3 <=2 False
+ * dummy -> 1 -> 2 ->
+ * k = k.next
+ * 3 <= 4 Yes
+ * k = k.next
+ * dummy -> 1 -> 2 -> 3
+ * 
+ * 
+ * 
  * 
  */
