@@ -15,8 +15,7 @@ public class Stock_Span_Problem {
 
 
         for(int i = 0; i<n; i++){
-            int top = st.peek();
-            while(!st.isEmpty() && arr[top] <= arr[i]){
+            while(!st.isEmpty() && arr[st.peek()] <= arr[i]){
                 st.pop();
             }
 
