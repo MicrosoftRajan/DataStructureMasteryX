@@ -1,4 +1,5 @@
 package MidLevel.BinaryTree;
+
 import java.util.*;
 
 class Node {
@@ -32,9 +33,10 @@ public class BinaryTreeImplementation {
         display(root.right);
     }
 
-    public static int size(Node root){
+    public static int size(Node root) {
 
-        if(root == null) return 0;
+        if (root == null)
+            return 0;
         int leftSize = size(root.left);
         int rightSize = size(root.right);
 
@@ -42,8 +44,9 @@ public class BinaryTreeImplementation {
 
     }
 
-    public static int sum(Node root){
-        if(root == null) return 0;
+    public static int sum(Node root) {
+        if (root == null)
+            return 0;
 
         int leftSum = sum(root.left);
         int rightSum = sum(root.right);
@@ -52,13 +55,14 @@ public class BinaryTreeImplementation {
 
     }
 
-        public static int product(Node root){
-        if(root == null) return 1;
+    public static int product(Node root) {
+        if (root == null)
+            return 1;
 
         int leftProduct = product(root.left);
         int rightProduct = product(root.right);
 
-        if( root.val == 0 || root.val <= 0){
+        if (root.val == 0 || root.val <= 0) {
             return leftProduct * rightProduct;
         }
 
@@ -66,16 +70,87 @@ public class BinaryTreeImplementation {
 
     }
 
-    public static int Max(Node root){
-        if(root == null) return Integer.MIN_VALUE;
+    public static int Max(Node root) {
+        if (root == null)
+            return Integer.MIN_VALUE;
 
-        return Math.max(root.val, Math.max(Max(root.left),Max(root.right)));
+        return Math.max(root.val, Math.max(Max(root.left), Max(root.right)));
     }
 
-        public static int Min(Node root){
-        if(root == null) return Integer.MAX_VALUE;
+    public static int Min(Node root) {
+        if (root == null)
+            return Integer.MAX_VALUE;
 
-        return Math.min(root.val, Math.min(Min(root.left),Min(root.right)));
+        return Math.min(root.val, Math.min(Min(root.left), Min(root.right)));
+    }
+
+    public static boolean isIdentical(Node root1, Node root2) {
+        if (root1 == null || root2 == null)
+            return false;
+
+        if (root1 == null && root2 == null)
+            return true;
+
+        return (root1.val == root2.val) && isIdentical(root1.left, root2.left) && isIdentical(root1.right, root2.right);
+    }
+
+    public static int Level(Node root) {
+        if (root == null)
+            return 0;
+        return 1 + Math.max(Level(root.left), Level(root.right));
+    }
+
+    public static void PreOrder(Node root) {
+        if (root == null)
+            return;
+        System.out.print(root.val + " ");
+        PreOrder(root.left);
+        PreOrder(root.right);
+    }
+
+    public static void PostOrder(Node root) {
+        if (root == null)
+            return;
+        PostOrder(root.left);
+        PostOrder(root.right);
+        System.out.print(root.val + " ");
+    }
+
+    public static void InOrder(Node root) {
+        if (root == null)
+            return;
+        InOrder(root.left);
+        System.out.print(root.val + " ");
+        InOrder(root.right);
+
+    }
+
+    public static void dfs(Node root, ArrayList<Integer> ans) {
+        if (root == null)
+            return;
+        ans.add(root.val);
+        dfs(root.left, ans);
+        dfs(root.right, ans);
+
+    }
+
+    public static ArrayList<Integer> preOrder(Node root) {
+        ArrayList<Integer> ans = new ArrayList<>();
+        dfs(root, ans);
+        return ans;
+    }
+
+    public static void Mirror(Node root) {
+        if (root == null)
+            return;
+
+        Node temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+
+        Mirror(root.left);
+        Mirror(root.right);
+
     }
 
     public static void main(String[] args) {
@@ -102,6 +177,50 @@ public class BinaryTreeImplementation {
         System.out.println("Product of Non Zero BT is : " + product(a));
         System.out.println("Max BT is : " + Max(a));
         System.out.println("Min BT is : " + Min(a));
+        System.out.println("Level BT is : " + Level(a));
+        System.out.println();
+        PreOrder(a);
+        System.out.println();
+        PostOrder(a);
+        System.out.println();
+        InOrder(a);
+        System.out.println();
+        System.out.println(preOrder(a));
+
+        // 1                                                    1
+        // / \                                              /        \
+        // 2 3                -->                          3         2
+        // / \ / \                                        / \       / \
+        // 4 5 6 7                                       7  6      5   4
+
+        Node i = new Node(1);
+        Node j = new Node(2);
+        Node k = new Node(3);
+        Node l = new Node(4);
+        Node m = new Node(5);
+        Node n = new Node(6);
+        Node o = new Node(7);
+
+        // Connection
+        i.left = j;
+        i.right = k;
+        j.left = l;
+        j.right = m;
+        k.left = n;
+        k.right = o;
+
+        System.out.println("Before");
+        PreOrder(i);
+
+        Mirror(i);
+
+        System.out.println("\nAfter");
+        PreOrder(i);
+
+        System.out.println();
+
+        System.out.println("Identical");
+        System.out.println(isIdentical(a, i));
     }
 
 }

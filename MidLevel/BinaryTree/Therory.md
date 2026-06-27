@@ -56,3 +56,9 @@ graph TD
     1 --> 3
     3 --> 4
 ```
+
+
+DFS
+Preorder Node Left Right
+Postorder Left Right Node
+Inorder Left Node Right
