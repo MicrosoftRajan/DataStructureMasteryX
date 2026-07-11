@@ -1,6 +1,7 @@
 package MidLevel.Queue;
 
 import java.util.*;
+import java.util.Queue;
 
 public class Basic_Queue {
 
